@@ -74,6 +74,7 @@
 
                 if (usernum === rand) {
                     document.getElementById('result').innerHTML = `YOU WIN! ${tries} tries! ${messages[Math.floor(Math.random() * 10)]}`;
+                    break;
                 } else if (Math.abs(rand - usernum) <= 10) {
                     document.getElementById('result').innerHTML = 'WARM';
                 } else if (Math.abs(rand - usernum) >= 30) {
