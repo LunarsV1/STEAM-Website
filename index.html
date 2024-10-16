@@ -1,115 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Guessing Game</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sprite Animation</title>
     <style>
-        body {
-            font-family: 'Open Sans', sans-serif;
-            background: linear-gradient(135deg, #add8e6 0%, #87ceeb 100%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            position: relative;
-            overflow: hidden;
-        }
-        h1 {
-            color: #000;
-        }
-        input[type="number"] {
-            padding: 10px;
-            font-size: 16px;
-            border: 2px solid #000;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            width: 200px;
-            background-color: rgba(255, 255, 255, 0.8);
-            color: #000;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            color: #fff;
-            background-color: #000;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #333;
-        }
-        p {
-            font-size: 18px;
-            color: #000;
-        }
-        .random-number {
-            position: absolute;
-            color: rgba(0, 0, 0, 0.1);
-            font-size: 24px;
-            animation: float 10s infinite;
-        }
-        @keyframes float {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0); }
+        /* CSS */
+        .sprite {
+            width: 64px; /* Width of a single frame */
+            height: 64px; /* Height of a single frame */
+            background-image: url('https://example.com/sprite-sheet.png'); /* Replace with your sprite sheet */
+            background-position: 0 0;
+            background-repeat: no-repeat;
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
-    <script>
-        function startGame() {
-            const rand = Math.floor(Math.random() * 100) + 1;
-            let usernum = 0;
-            let tries = 0;
-            let lastUserGuess = 0;
-            const messages = ['Great!', 'Good!', 'Amazing', 'Finally!', 'Fantastic!', 'Crazy!', 'Cool!', 'Awesome!', 'Neat!', 'Nice!'];
-
-            document.getElementById('result').innerHTML = '';
-
-            document.getElementById('guessButton').onclick = function() {
-                const userguess = document.getElementById('userguess').value;
-                usernum = parseInt(userguess);
-                tries += 1;
-
-                if (usernum === rand) {
-                    document.getElementById('result').innerHTML = `YOU WIN! ${tries} tries! ${messages[Math.floor(Math.random() * 10)]}`;
-                } else if (Math.abs(rand - usernum) <= 10) {
-                    document.getElementById('result').innerHTML = 'WARM';
-                } else if (Math.abs(rand - usernum) >= 30) {
-                    document.getElementById('result').innerHTML = 'COLD';
-                }
-
-                if (Math.abs(rand - usernum) <= Math.abs(rand - lastUserGuess)) {
-                    document.getElementById('result').innerHTML += '<br>Warmer';
-                } else if (Math.abs(rand - usernum) >= Math.abs(rand - lastUserGuess)) {
-                    document.getElementById('result').innerHTML += '<br>Colder';
-                } else if (Math.abs(rand - usernum) === Math.abs(rand - lastUserGuess)) {
-                    document.getElementById('result').innerHTML += '<br>Same';
-                }
-
-                lastUserGuess = usernum;
-            };
-
-            // Add random numbers to the background
-            for (let i = 0; i < 100; i++) {
-                const randomNumber = Math.floor(Math.random() * 100);
-                const span = document.createElement('span');
-                span.className = 'random-number';
-                span.style.left = Math.random() * 100 + 'vw';
-                span.style.top = Math.random() * 100 + 'vh';
-                span.style.fontSize = Math.random() * 24 + 12 + 'px';
-                span.style.animationDuration = Math.random() * 10 + 5 + 's';
-                span.innerText = randomNumber;
-                document.body.appendChild(span);
-            }
-        }
-    </script>
 </head>
-<body onload="startGame()">
-    <h1>Guessing Game</h1>
-    <input type="number" id="userguess" placeholder="Enter your guess">
-    <button id="guessButton">Guess</button>
-    <p id="result"></p>
+<body>
+    <!-- HTML -->
+    <div class="sprite"></div>
+
+    <script>
+        // JavaScript
+        const sprite = document.querySelector('.sprite');
+        let frameWidth = 64; // Width of each frame in the sprite sheet
+        let currentFrame = 0;
+        let totalFrames = 6; // Total number of frames in the sprite sheet
+        let spriteSheetWidth = frameWidth * totalFrames; // Width of the whole sprite sheet
+
+        function animateSprite() {
+            currentFrame = (currentFrame + 1) % totalFrames;
+            let newPosition = -currentFrame * frameWidth;
+            sprite.style.backgroundPosition = `${newPosition}px 0`;
+        }
+
+        // Animate the sprite at 10 frames per second
+        setInterval(animateSprite, 100);
+    </script>
 </body>
 </html>
